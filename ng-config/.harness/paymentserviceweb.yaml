@@ -357,6 +357,38 @@ pipeline:
                                           timeout: 10m
                                           spec: {}
                           - step:
+                                type: Verify
+                                name: Prometheus
+                                identifier: Prometheus
+                                spec:
+                                    type: Rolling
+                                    spec:
+                                        sensitivity: HIGH
+                                        duration: 10m
+                                        deploymentTag: <+serviceConfig.artifacts.primary.tag>
+                                timeout: 2h
+                                failureStrategies:
+                                    - onFailure:
+                                          errors:
+                                              - Verification
+                                          action:
+                                              type: ManualIntervention
+                                              spec:
+                                                  timeout: 2h
+                                                  onTimeout:
+                                                      action:
+                                                          type: StageRollback
+                                    - onFailure:
+                                          errors:
+                                              - Unknown
+                                          action:
+                                              type: ManualIntervention
+                                              spec:
+                                                  timeout: 2h
+                                                  onTimeout:
+                                                      action:
+                                                          type: Ignore
+                          - step:
                                 type: ShellScript
                                 name: WrapUp
                                 identifier: WrapUp
