@@ -3,6 +3,7 @@ pipeline:
     identifier: paymentserviceweb
     projectIdentifier: DevX_Demo
     orgIdentifier: default
+    test: hehehe
     tags: {}
     properties:
         ci:
